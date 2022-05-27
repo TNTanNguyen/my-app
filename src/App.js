@@ -1,66 +1,24 @@
-import { useState, useEffect } from 'react';
 import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
-import TodoFeature from './features/Todo';
+import { useEffect } from 'react';
 import NotFound from './components/NotFound';
-import PostList from './components/PostList';
-import Pagination from './components/Pagination';
-import PostFilltersForm from './components/PostFilltersForm';
-import queryString from 'query-string';
-
+import TodoFeature from './features/Todo';
+import ProductApi from './api/productApi';
 function App() {
-  const [postList, setPostList] = useState([]);
-
-  const [pagination, setPagination] = useState({ _page: 1, _limit: 10, _totalRows: 1 });
-
-  const [fillter, setFillter] = useState({
-    _page: 1,
-    _limit: 10,
-    title_like: '',
-  });
-
   useEffect(() => {
-    async function fetchData() {
-      //...
-      try {
-        //_limit=10&_page=1
-        const paramPage = queryString.stringify(fillter);
-        console.log(paramPage);
-        const url = `http://js-post-api.herokuapp.com/api/posts?${paramPage}`;
-        const response = await fetch(url);
-        const responseJSON = await response.json();
+    const FetchProducs = async () => {
+      const params = {
+        _limit: 10,
+      };
+      const productList = await ProductApi.getAll(params);
+      console.log(productList);
+    };
 
-        console.log({ responseJSON });
-
-        const { data, pagination } = responseJSON;
-
-        setPostList(data);
-        setPagination(pagination);
-      } catch (error) {
-        console.log('Failed to fetch data post list', error.message);
-      }
-    }
-    fetchData();
-  }, [fillter]);
-  const handlePageChange = (newPage) => {
-    // console.log('NewPage :', newPage);
-    setFillter({
-      ...fillter,
-      _page: newPage,
-    });
-  };
-
-  const handleSubmit = (valueForm) => {
-    console.log(valueForm);
-    setFillter({
-      ...fillter,
-      _page: 1,
-      title_like: valueForm.searchTemr,
-    });
-  };
+    FetchProducs();
+  }, []);
 
   return (
     <div className="App">
-      {/* <p>Header</p>
+      <p>Header</p>
 
       <hr />
       <p>
@@ -77,11 +35,7 @@ function App() {
         <Route path="/todos" component={TodoFeature} />
         <Route component={NotFound} />
       </Switch>
-      <p>Footer</p> */}
-      <h1>Post List</h1>
-      <PostFilltersForm onSubmit={handleSubmit} />
-      <PostList posts={postList} />
-      <Pagination pagination={pagination} onPageChange={handlePageChange} />
+      <p>Footer</p>
     </div>
   );
 }
