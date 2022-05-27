@@ -4,19 +4,18 @@ import TodoFeature from './features/Todo';
 import NotFound from './components/NotFound';
 import PostList from './components/PostList';
 import Pagination from './components/Pagination';
+import PostFilltersForm from './components/PostFilltersForm';
 import queryString from 'query-string';
 
 function App() {
   const [postList, setPostList] = useState([]);
-  const [pagination, setPagination] = useState({
-    _page: 1,
-    _limit: 10,
-    _totalRows: 1,
-  });
+
+  const [pagination, setPagination] = useState({ _page: 1, _limit: 10, _totalRows: 1 });
 
   const [fillter, setFillter] = useState({
-    _limit: 10,
     _page: 1,
+    _limit: 10,
+    title_like: '',
   });
 
   useEffect(() => {
@@ -24,8 +23,9 @@ function App() {
       //...
       try {
         //_limit=10&_page=1
-        const paramString = queryString.stringify(fillter);
-        const url = `http://js-post-api.herokuapp.com/api/posts?${paramString}`;
+        const paramPage = queryString.stringify(fillter);
+        console.log(paramPage);
+        const url = `http://js-post-api.herokuapp.com/api/posts?${paramPage}`;
         const response = await fetch(url);
         const responseJSON = await response.json();
 
@@ -41,14 +41,23 @@ function App() {
     }
     fetchData();
   }, [fillter]);
-
-  const handlePageChange = (newPgae) => {
-    console.log('New Page', newPgae);
+  const handlePageChange = (newPage) => {
+    // console.log('NewPage :', newPage);
     setFillter({
       ...fillter,
-      _page: newPgae,
+      _page: newPage,
     });
   };
+
+  const handleSubmit = (valueForm) => {
+    console.log(valueForm);
+    setFillter({
+      ...fillter,
+      _page: 1,
+      title_like: valueForm.searchTemr,
+    });
+  };
+
   return (
     <div className="App">
       {/* <p>Header</p>
@@ -70,6 +79,7 @@ function App() {
       </Switch>
       <p>Footer</p> */}
       <h1>Post List</h1>
+      <PostFilltersForm onSubmit={handleSubmit} />
       <PostList posts={postList} />
       <Pagination pagination={pagination} onPageChange={handlePageChange} />
     </div>

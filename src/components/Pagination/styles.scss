@@ -1,0 +1,17 @@
+.pagesNumber {
+    display: flex;
+    list-style: none;
+    li {
+        width: 30px;
+        height: 30px;
+        border: 1px solid;
+        text-align: center;
+        cursor: pointer;
+        &:hover {
+            background: #999;
+        }
+        &.active {
+            background-color: pink;
+        }
+    }
+}
