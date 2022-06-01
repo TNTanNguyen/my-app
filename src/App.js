@@ -4,17 +4,17 @@ import NotFound from './components/NotFound';
 import TodoFeature from './features/Todo';
 import ProductApi from './api/productApi';
 function App() {
-  useEffect(() => {
-    const FetchProducs = async () => {
-      const params = {
-        _limit: 10,
-      };
-      const productList = await ProductApi.getAll(params);
-      console.log(productList);
-    };
+  // useEffect(() => {
+  //   const FetchProducs = async () => {
+  //     const params = {
+  //       _limit: 10,
+  //     };
+  //     const productList = await ProductApi.getAll(params);
+  //     console.log(productList);
+  //   };
 
-    FetchProducs();
-  }, []);
+  //   FetchProducs();
+  // }, []);
 
   return (
     <div className="App">
