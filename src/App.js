@@ -1,41 +1,38 @@
-import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
+import Header from 'components/Header';
+import AlbumFeature from 'features/Album';
 import { useEffect } from 'react';
-import NotFound from './components/NotFound';
-import TodoFeature from './features/Todo';
+import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import ProductApi from './api/productApi';
-function App() {
-  // useEffect(() => {
-  //   const FetchProducs = async () => {
-  //     const params = {
-  //       _limit: 10,
-  //     };
-  //     const productList = await ProductApi.getAll(params);
-  //     console.log(productList);
-  //   };
+import NotFound from './components/NotFound';
+import CounterFeature from './features/Counter';
+import TodoFeature from './features/Todo';
 
-  //   FetchProducs();
-  // }, []);
+function App() {
+  useEffect(() => {
+    const FetchProducs = async () => {
+      const params = {
+        _limit: 10,
+      };
+      const productList = await ProductApi.getAll(params);
+      console.log(productList);
+    };
+
+    FetchProducs();
+  }, []);
 
   return (
     <div className="App">
-      <p>Header</p>
-
-      <hr />
-      <p>
-        <NavLink to="/todos" activeClassName="active-menu">
-          TodoFeature
-        </NavLink>
-      </p>
-      <hr />
+      <Header color="goldenrod">Header</Header>
 
       <Switch>
         <Redirect from="/home" to="/" exact />
         <Redirect from="/post-list/:postId" to="/posts/:postId" exact />
 
+        <Route path="/" component={CounterFeature} exact />
         <Route path="/todos" component={TodoFeature} />
+        <Route path="/albums" component={AlbumFeature} />
         <Route component={NotFound} />
       </Switch>
-      <p>Footer</p>
     </div>
   );
 }
