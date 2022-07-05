@@ -13,9 +13,7 @@ InputField.propTypes = {
 
 function InputField(props) {
   const { form, name, label, disabled } = props;
-  const { errors, formState } = form;
-
-  // const hasErrors = formState.touched[name] && errors[name];
+  const { errors } = form;
   const hasErrors = errors[name];
 
   return (
@@ -23,14 +21,23 @@ function InputField(props) {
       name={name} //Bắt buộc => *
       control={form.control} // *
       //sử dụng UI lib nào ?
-      as={TextField}
-      margin="normal"
-      variant="outlined"
-      fullWidth
-      label={label}
-      disabled={disabled}
-      error={!!hasErrors}
-      helperText={errors[name]?.message}
+      // as={TextField} =>render
+      render={({ onChange, onBlur, value, name }) => (
+        <TextField
+          margin="normal"
+          variant="outlined"
+          fullWidth
+          label={label}
+          disabled={disabled}
+          error={!!hasErrors}
+          helperText={errors[name]?.message}
+          //
+          name={name}
+          value={value}
+          onChange={onChange}
+          onBlur={onBlur}
+        />
+      )}
     />
   );
 }

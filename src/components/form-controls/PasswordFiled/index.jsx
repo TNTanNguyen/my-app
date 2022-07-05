@@ -9,7 +9,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { FormHelperText } from '@material-ui/core';
+import { FormHelperText, TextField } from '@material-ui/core';
 PasswordField.propTypes = {
   form: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
@@ -37,22 +37,30 @@ function PasswordField(props) {
         name={name}
         control={form.control}
         as={OutlinedInput}
-        id={name}
-        type={showPassword ? 'text' : 'password'}
-        endAdornment={
-          <InputAdornment position="end">
-            <IconButton
-              aria-label="toggle password visibility"
-              onClick={toggleShowPassword}
-              edge="end"
-            >
-              {showPassword ? <Visibility /> : <VisibilityOff />}
-            </IconButton>
-          </InputAdornment>
-        }
-        //   labelWidth="max-content"
-        label={label}
-        disabled={disabled}
+        render={({ onChange, onBlur, value, name }) => (
+          <TextField
+            id={name}
+            type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={toggleShowPassword}
+                  edge="end"
+                >
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label={label}
+            disabled={disabled}
+            //
+            name={name}
+            value={value}
+            onChange={onChange}
+            onBlur={onBlur}
+          />
+        )}
       />
       <FormHelperText id={name}>{errors[name]?.message}</FormHelperText>
     </FormControl>
