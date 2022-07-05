@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 FillterByCategory.propTypes = {
   onChange: PropTypes.func,
 };
+
 const useStyle = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
@@ -23,6 +24,7 @@ const useStyle = makeStyles((theme) => ({
     },
   },
 }));
+
 function FillterByCategory({ onChange }) {
   const [categoryList, setCategoryList] = useState([]);
 
@@ -47,6 +49,7 @@ function FillterByCategory({ onChange }) {
   };
 
   const classes = useStyle();
+
   return (
     <Box className={classes.root}>
       <Typography variant="subtitle2">DANH MỤC SẢN PHẨM</Typography>
