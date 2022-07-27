@@ -36,9 +36,9 @@ function PasswordField(props) {
       <Controller
         name={name}
         control={form.control}
-        as={OutlinedInput}
+        // as={OutlinedInput}
         render={({ onChange, onBlur, value, name }) => (
-          <TextField
+          <OutlinedInput
             id={name}
             type={showPassword ? 'text' : 'password'}
             endAdornment={
