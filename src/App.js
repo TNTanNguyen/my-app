@@ -1,5 +1,6 @@
 import Header from 'components/Header';
 import AlbumFeature from 'features/Album';
+import CartFeatures from 'features/Cart';
 import ProductFeature from 'features/Product';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import NotFound from './components/NotFound';
@@ -18,6 +19,8 @@ function App() {
         <Route path="/todos" component={TodoFeature} />
         <Route path="/albums" component={AlbumFeature} />
         <Route path="/products" component={ProductFeature} />
+        <Route path="/cart" component={CartFeatures} />
+
         <Route component={NotFound} />
       </Switch>
     </div>
