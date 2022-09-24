@@ -20,10 +20,11 @@ function AddToCartForm({ onSubmit = null }) {
   });
   const form = useForm({
     defaultValues: {
-      quantity: '',
+      quantity: 1,
     },
     resolver: yupResolver(schema),
   });
+
   const handleSubmit = async (values) => {
     if (onSubmit) {
       await onSubmit(values);

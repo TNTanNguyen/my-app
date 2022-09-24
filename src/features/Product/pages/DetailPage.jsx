@@ -8,6 +8,8 @@ import ProductMenu from '../components/ProductMenu';
 import ProductAdditional from '../components/ProductAdditional';
 import ProductDescription from '../components/ProductDescription';
 import ProductReviews from '../components/ProductReviews';
+import { useDispatch } from 'react-redux';
+import { addToCart } from 'features/Cart/CartSlice';
 
 const useStyles = makeStyles((theme) => ({
   root: { paddingBottom: theme.spacing(3) },
@@ -47,6 +49,8 @@ function DetailPage() {
   //custom hooks
   const { product, loading } = useProductDetail(productId);
 
+  const dispatch = useDispatch();
+
   if (loading) {
     //TODO:Make this beautyful
     return (
@@ -55,8 +59,15 @@ function DetailPage() {
       </Box>
     );
   }
-  const handleAddToCartSubmit = (value) => {
-    console.log('Add To Cart Submit: ', value);
+  const handleAddToCartSubmit = (formValues) => {
+    // console.log('Add To Cart Submit: ', formValues);
+    const action = addToCart({
+      id: product.id,
+      product,
+      quantity: formValues.quantity,
+    });
+    // console.log(action);
+    dispatch(action);
   };
   return (
     <Box className={classes.root}>

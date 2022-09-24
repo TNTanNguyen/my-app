@@ -4,18 +4,19 @@ import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import CodeIcon from '@material-ui/icons/Code';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useHistory } from 'react-router-dom';
 
-import { Box, IconButton, Menu, MenuItem } from '@material-ui/core';
+import { Badge, Box, IconButton, Menu, MenuItem } from '@material-ui/core';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import { AccountCircle, Close } from '@material-ui/icons';
+import { AccountCircle, Close, ShoppingCart } from '@material-ui/icons';
 import Register from 'features/Auth/components/Register';
 import { useState } from 'react';
 import Login from 'features/Auth/components/Login';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from 'features/Auth/userSlice';
+import { cartTotalItemsSelector } from 'features/Cart/selectors';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -44,6 +45,8 @@ const MODE = {
 export default function Header() {
   const dispatch = useDispatch();
   const loggedInUser = useSelector((state) => state.user.current);
+  const cartItemsCount = useSelector(cartTotalItemsSelector);
+  const history = useHistory();
   const isLoggedIn = !!loggedInUser.id;
 
   const [open, setOpen] = useState(false);
@@ -62,11 +65,16 @@ export default function Header() {
     setAnchorEl(event.currentTarget);
   };
 
+  const handleCartClick = () => {
+    history.push('/cart');
+  };
+
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
 
   const handleLogout = () => {
+    setAnchorEl(null);
     const action = logout();
     dispatch(action);
   };
@@ -85,9 +93,9 @@ export default function Header() {
           <NavLink to="/products" className={classes.link}>
             <Button color="inherit">Products</Button>
           </NavLink>
-          <NavLink to="/cart" className={classes.link}>
+          {/* <NavLink to="/cart" className={classes.link}>
             <Button color="inherit">Cart</Button>
-          </NavLink>
+          </NavLink> */}
           <NavLink to="/todos" className={classes.link}>
             <Button color="inherit">Todo</Button>
           </NavLink>
@@ -100,7 +108,11 @@ export default function Header() {
               Login
             </Button>
           )}
-
+          <IconButton size="small" color="inherit" onClick={handleCartClick}>
+            <Badge badgeContent={cartItemsCount} color="error" overlap="rectangular">
+              <ShoppingCart />
+            </Badge>
+          </IconButton>
           {isLoggedIn && (
             <IconButton color="inherit" onClick={handleUserClick}>
               <AccountCircle />
